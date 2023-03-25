@@ -1,6 +1,6 @@
 import request from "../config/common.js";
 import qa from "../config/qa.js";
-const token = `${{secrets.API_KEY}}`
+const token = process.env.API_KEY
 
 export const createTask = async (data) =>{
     
