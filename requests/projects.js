@@ -11,10 +11,10 @@ export const getAllProjects = async () =>{
                 return res
 }
 
-export const getProject = async () =>{
+export const getProject = async (data) =>{
     
         const res = await request
-                .get(`/projects/${qa.project_id}`)
+                .get(`/projects/${data}`)
                 .set('Authorization', `Bearer ${token}`)
 
                 return res
@@ -30,10 +30,10 @@ export const createProject = async (data) =>{
                 return res
 }
 
-export const deleteProject = async () =>{
+export const deleteProject = async (data) =>{
     
         const res = await request
-                .delete(`/projects/${qa.project_id}`)
+                .delete(`/projects/${data}`)
                 .set('Authorization', `Bearer ${token}`)
 
                 return res

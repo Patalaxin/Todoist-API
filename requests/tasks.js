@@ -12,10 +12,10 @@ export const createTask = async (data) =>{
             return res
 }
 
-export const updateTask = async (data) =>{
+export const updateTask = async (data, task_id) =>{
     
     const res = await request
-            .post(`/tasks/${qa.task_id}`)
+            .post(`/tasks/${task_id}`)
             .set('Authorization', `Bearer ${token}`)
             .send(data)
 
@@ -31,28 +31,28 @@ export const getTasks = async () =>{
             return res
 }
 
-export const getTask = async () =>{
+export const getTask = async (data) =>{
     
     const res = await request
-            .get(`/tasks/${qa.task_id}`)
+            .get(`/tasks/${data}`)
             .set('Authorization', `Bearer ${token}`)
 
             return res
 }
 
-export const closeTask = async () =>{
+export const closeTask = async (data) =>{
     
     const res = await request
-            .post(`/tasks/${qa.task_id}/close`)
+            .post(`/tasks/${data}/close`)
             .set('Authorization', `Bearer ${token}`)
 
             return res
 }
 
-export const deleteTask = async () =>{
+export const deleteTask = async (data) =>{
     
     const res = await request
-            .delete(`/tasks/${qa.task_id}`)
+            .delete(`/tasks/${data}`)
             .set('Authorization', `Bearer ${token}`)
 
             return res
