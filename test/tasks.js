@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import qa from "../config/qa.js";
-import { closeTask, createTask, deleteTask, updateTask } from "../helper/tasks.js";
-import { createTaskBody, updateTaskBody } from "../schemas/tasks.js";
+import { closeTask, createTask, deleteTask, updateTask } from "../requests/tasks.js";
+import { createTaskBody, updateTaskBody } from "../requests body/tasks.js";
 
     describe('Positive tests', () => {
         it('create /tasks', async () => {

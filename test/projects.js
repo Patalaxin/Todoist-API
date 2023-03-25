@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { getAllProjects, getProject, createProject, deleteProject } from "../helper/projects.js";
-import { createProjectBody } from "../schemas/projects.js";
+import { getAllProjects, getProject, createProject, deleteProject } from "../requests/projects.js";
+import { createProjectBody } from "../requests body/projects.js";
 import qa from "../config/qa.js";
 
     describe('Positive tests', () => {
