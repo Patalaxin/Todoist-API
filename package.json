@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@playwright/test": "^1.42.0",
     "mochawesome": "^7.1.3"
   }
 }
