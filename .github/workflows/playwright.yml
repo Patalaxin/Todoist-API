@@ -22,7 +22,7 @@ jobs:
     - name: Change directory to playwright folder
       run: cd playwright    
     - name: Logs
-      run: pwd
+      run: ls
     - name: Run Playwright tests
       run: npx playwright test --config=playwright.config.ts
     - uses: actions/upload-artifact@v4
