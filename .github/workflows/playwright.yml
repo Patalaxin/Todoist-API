@@ -1,27 +1,88 @@
-name: Playwright Tests
+name: 'E2E Mobile Playwright Testing'
+
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    name: mobile e2e
+    env:
+      USER_EMAIL_STAGING: ${{ secrets.USER_EMAIL_STAGING }}
+      USER_PASSWORD_STAGING: ${{ secrets.USER_PASSWORD_STAGING }}
+      URL_STAGING_MOBILE: ${{ secrets.URL_STAGING_MOBILE }}
+      PROJECT_NUMBER: ${{ secrets.PROJECT_NUMBER }}
+      PROJECT_PASSWORD: ${{ secrets.PROJECT_PASSWORD }}
+      URL_WEB_API_STAGING: ${{ secrets.URL_WEB_API_STAGING }}
+      URL_MOBILE_API_STAGING: ${{ secrets.URL_MOBILE_API_STAGING }}
+      URL_VARIOMEDIA: ${{ secrets.URL_VARIOMEDIA }}
+      EMAIL_VARIOMEDIA: ${{ secrets.EMAIL_VARIOMEDIA }}
+      PASSWORD_VARIOMEDIA: ${{ secrets.PASSWORD_VARIOMEDIA }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: cd playwright && npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 14
+      - name: Install dependencies
+        run: cd playwright && npm install
+      - name: Install Playwright Browsers
+        run: cd playwright && npx playwright install chromium
+      - name: Set up environment variables
+        run: |
+          cd playwright
+          echo "USER_EMAIL_STAGING=${{ secrets.USER_EMAIL_STAGING }}" >> .env
+          echo "USER_PASSWORD_STAGING=${{ secrets.USER_PASSWORD_STAGING }}" >> .env
+          echo "URL_STAGING_MOBILE=${{ secrets.URL_STAGING_MOBILE }}" >> .env
+          echo "PROJECT_NUMBER=${{ secrets.PROJECT_NUMBER }}" >> .env
+          echo "PROJECT_PASSWORD=${{ secrets.PROJECT_PASSWORD }}" >> .env
+          echo "URL_WEB_API_STAGING=${{ secrets.URL_WEB_API_STAGING }}" >> .env
+          echo "URL_MOBILE_API_STAGING=${{ secrets.URL_MOBILE_API_STAGING }}" >> .env
+          echo "URL_VARIOMEDIA=${{ secrets.URL_VARIOMEDIA }}" >> .env
+          echo "EMAIL_VARIOMEDIA=${{ secrets.EMAIL_VARIOMEDIA }}" >> .env
+          echo "PASSWORD_VARIOMEDIA=${{ secrets.PASSWORD_VARIOMEDIA }}" >> .env
+      - name: Run Playwright Mobile Login tests
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        if: contains(fromJSON('["feature/playwright-autotest", "staging"]'), github.ref_name)
+        run: cd playwright && npx playwright test --grep @mobileLogin --workers=4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: Run Playwright Mobile Jobs tests
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        if: contains(fromJSON('["feature/playwright-autotest", "staging"]'), github.ref_name)
+        run: cd playwright && npx playwright test --grep @mobileJobs --workers=4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: Run Playwright Mobile Profile tests
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        if: contains(fromJSON('["feature/playwright-autotest", "staging"]'), github.ref_name)
+        run: cd playwright && npx playwright test --grep @mobileProfile --workers=4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: Run Playwright Mobile Recovery tests
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        if: contains(fromJSON('["feature/playwright-autotest", "staging"]'), github.ref_name)
+        run: cd playwright && npx playwright test --grep @mobileRecovery --workers=4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
